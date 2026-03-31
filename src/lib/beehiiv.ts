@@ -1,0 +1,175 @@
+export type BlogPost = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  publishedAt: string;
+  excerpt: string;
+  content: string;
+  thumbnailUrl: string | null;
+  webUrl: string;
+  readingTime: number;
+};
+
+type BeehiivPost = {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  slug: string;
+  publish_date: number;
+  preview_text: string;
+  meta_default_description: string | null;
+  thumbnail_url: string | null;
+  web_url: string;
+  content: {
+    free: {
+      web: string;
+    };
+  };
+};
+
+type BeehiivListResponse = {
+  data: BeehiivPost[];
+  total_results: number;
+  total_pages: number;
+  page: number;
+  limit: number;
+};
+
+function estimateReadingTime(html: string): number {
+  const text = html.replace(/<[^>]*>/g, "");
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 250));
+}
+
+function mapPost(post: BeehiivPost): BlogPost {
+  return {
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    subtitle: post.subtitle,
+    publishedAt: new Date(post.publish_date * 1000).toISOString(),
+    excerpt: post.meta_default_description || post.preview_text || "",
+    content: post.content?.free?.web || "",
+    thumbnailUrl: post.thumbnail_url,
+    webUrl: post.web_url,
+    readingTime: estimateReadingTime(post.content?.free?.web || ""),
+  };
+}
+
+export async function getPosts(page = 1, limit = 10): Promise<{
+  posts: BlogPost[];
+  totalPages: number;
+}> {
+  const apiKey = process.env.BEEHIIV_API_KEY;
+  const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
+
+  if (!apiKey || !publicationId) {
+    return { posts: [], totalPages: 0 };
+  }
+
+  const params = new URLSearchParams({
+    status: "confirmed",
+    "expand[]": "free_web_content",
+    order_by: "publish_date",
+    direction: "desc",
+    page: String(page),
+    limit: String(limit),
+  });
+
+  const response = await fetch(
+    `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
+    {
+      headers: { Authorization: `Bearer ${apiKey}` },
+      next: { revalidate: 3600 },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Beehiiv API error: ${response.status}`);
+  }
+
+  const data: BeehiivListResponse = await response.json();
+
+  return {
+    posts: data.data.map(mapPost),
+    totalPages: data.total_pages,
+  };
+}
+
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  const apiKey = process.env.BEEHIIV_API_KEY;
+  const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
+
+  if (!apiKey || !publicationId) {
+    return null;
+  }
+
+  const params = new URLSearchParams({
+    status: "confirmed",
+    "expand[]": "free_web_content",
+    "slugs[]": slug,
+  });
+
+  const response = await fetch(
+    `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
+    {
+      headers: { Authorization: `Bearer ${apiKey}` },
+      next: { revalidate: 3600 },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Beehiiv API error: ${response.status}`);
+  }
+
+  const data: BeehiivListResponse = await response.json();
+
+  if (data.data.length === 0) {
+    return null;
+  }
+
+  return mapPost(data.data[0]);
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+  const apiKey = process.env.BEEHIIV_API_KEY;
+  const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
+
+  if (!apiKey || !publicationId) {
+    return [];
+  }
+
+  const slugs: string[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  while (page <= totalPages) {
+    const params = new URLSearchParams({
+      status: "confirmed",
+      order_by: "publish_date",
+      direction: "desc",
+      page: String(page),
+      limit: "100",
+    });
+
+    const response = await fetch(
+      `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
+      {
+        headers: { Authorization: `Bearer ${apiKey}` },
+        next: { revalidate: 3600 },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Beehiiv API error: ${response.status}`);
+    }
+
+    const data: BeehiivListResponse = await response.json();
+    slugs.push(...data.data.map((post) => post.slug));
+    totalPages = data.total_pages;
+    page++;
+  }
+
+  return slugs;
+}
