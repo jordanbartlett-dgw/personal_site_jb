@@ -40,6 +40,10 @@ export const metadata: Metadata = {
     description:
       "Builder. CTO. Co-founder of Doing Good Works and Foster Greatness.",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { SectionLabel } from "@/components/section-label";
 import { currently } from "@/data/currently";
@@ -6,6 +7,42 @@ import { currently } from "@/data/currently";
 export default function Home() {
   return (
     <div>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Jordan Bartlett",
+            url: "https://jordanbartlett.co",
+            jobTitle: "CTO & Co-Founder",
+            description:
+              "Builder, CTO, and co-founder of Doing Good Works and Foster Greatness.",
+            worksFor: [
+              {
+                "@type": "Organization",
+                name: "Doing Good Works",
+                url: "https://doinggoodworks.com",
+                description:
+                  "Promotional products social enterprise and public benefit corporation.",
+              },
+              {
+                "@type": "Organization",
+                name: "Foster Greatness",
+                url: "https://fostergreatness.co",
+                description:
+                  "Lifelong community for current and former foster youth.",
+              },
+            ],
+            sameAs: [
+              "https://linkedin.com/in/jordanbartlett",
+              "https://github.com/jordanbartlett",
+              "https://instagram.com/jordanbartlett",
+            ],
+          }),
+        }}
+      />
       {/* Hero */}
       <section className="px-6 md:px-10 pt-20 pb-16 max-w-prose mx-auto">
         <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-4">
