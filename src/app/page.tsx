@@ -74,12 +74,14 @@ export default function Home() {
             corporation. Every order funds Foster Greatness. Your branded merch
             budget becomes impact.
           </p>
-          <Link
-            href="/connect?type=merchandise"
+          <a
+            href="https://doinggoodworks.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm text-terracotta border-b border-terracotta hover:opacity-80 transition-opacity"
           >
-            Book a call about branded merchandise →
-          </Link>
+            Visit Doing Good Works →
+          </a>
         </div>
 
         {/* FG */}
@@ -92,12 +94,14 @@ export default function Home() {
             members. Lived experience-led. Free to join. No aging out.
           </p>
           <div className="flex flex-wrap gap-6">
-            <Link
-              href="/connect?type=partnership"
+            <a
+              href="https://fostergreatness.co"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm text-terracotta border-b border-terracotta hover:opacity-80 transition-opacity"
             >
-              Partner with us →
-            </Link>
+              Visit Foster Greatness →
+            </a>
             <a
               href="https://fostergreatness.co/donate"
               target="_blank"

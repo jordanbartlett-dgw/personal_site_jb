@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const links = [
   { label: "LinkedIn", href: "https://linkedin.com/in/jordanbartlett", external: true },
-  { label: "GitHub", href: "https://github.com/jordanbartlett", external: true },
+
   { label: "Instagram", href: "https://instagram.com/jordanbartlett", external: true },
   { label: "Newsletter", href: "/blog", external: false },
 ];
