@@ -38,6 +38,9 @@ yarn-error.log*
 # superpowers brainstorm files
 .superpowers/
 
+# infisical
+.infisical.json
+
 # vercel
 .vercel
 
