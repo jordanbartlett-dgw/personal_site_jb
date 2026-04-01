@@ -36,6 +36,28 @@ type BeehiivListResponse = {
   limit: number;
 };
 
+function cleanBeehiivHtml(html: string): string {
+  // Extract content-blocks div if present (skip header, byline, social buttons)
+  const contentMatch = html.match(
+    /<div[^>]*id=["']content-blocks["'][^>]*>([\s\S]*)/i
+  );
+  let content = contentMatch ? contentMatch[1] : html;
+
+  // Remove closing wrapper divs from the end
+  content = content.replace(/(<\/div>\s*){1,5}$/, "");
+
+  // Strip inline styles so Tailwind Typography controls presentation
+  content = content.replace(/\s*style="[^"]*"/gi, "");
+
+  // Strip Beehiiv CSS custom properties and embedded styles
+  content = content.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+
+  // Strip class attributes with Beehiiv-specific classes
+  content = content.replace(/\s*class="[^"]*"/gi, "");
+
+  return content.trim();
+}
+
 function estimateReadingTime(html: string): number {
   const text = html.replace(/<[^>]*>/g, "");
   const words = text.split(/\s+/).filter(Boolean).length;
@@ -50,7 +72,7 @@ function mapPost(post: BeehiivPost): BlogPost {
     subtitle: post.subtitle,
     publishedAt: new Date(post.publish_date * 1000).toISOString(),
     excerpt: post.meta_default_description || post.preview_text || "",
-    content: post.content?.free?.web || "",
+    content: cleanBeehiivHtml(post.content?.free?.web || ""),
     thumbnailUrl: post.thumbnail_url,
     webUrl: post.web_url,
     readingTime: estimateReadingTime(post.content?.free?.web || ""),
