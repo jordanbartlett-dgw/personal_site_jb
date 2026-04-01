@@ -22,8 +22,11 @@ type BeehiivPost = {
   thumbnail_url: string | null;
   web_url: string;
   content: {
-    free: {
-      web: string;
+    free?: {
+      web?: string;
+    };
+    premium?: {
+      web?: string;
     };
   };
 };
@@ -64,7 +67,12 @@ function estimateReadingTime(html: string): number {
   return Math.max(1, Math.ceil(words / 250));
 }
 
+function getPostHtml(post: BeehiivPost): string {
+  return post.content?.premium?.web || post.content?.free?.web || "";
+}
+
 function mapPost(post: BeehiivPost): BlogPost {
+  const html = getPostHtml(post);
   return {
     id: post.id,
     slug: post.slug,
@@ -72,10 +80,10 @@ function mapPost(post: BeehiivPost): BlogPost {
     subtitle: post.subtitle,
     publishedAt: new Date(post.publish_date * 1000).toISOString(),
     excerpt: post.meta_default_description || post.preview_text || "",
-    content: cleanBeehiivHtml(post.content?.free?.web || ""),
+    content: cleanBeehiivHtml(html),
     thumbnailUrl: post.thumbnail_url,
     webUrl: post.web_url,
-    readingTime: estimateReadingTime(post.content?.free?.web || ""),
+    readingTime: estimateReadingTime(html),
   };
 }
 
@@ -92,12 +100,13 @@ export async function getPosts(page = 1, limit = 10): Promise<{
 
   const params = new URLSearchParams({
     status: "confirmed",
-    "expand[]": "free_web_content",
     order_by: "publish_date",
     direction: "desc",
     page: String(page),
     limit: String(limit),
   });
+  params.append("expand[]", "free_web_content");
+  params.append("expand[]", "premium_web_content");
 
   const response = await fetch(
     `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
@@ -134,9 +143,10 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
 
   const params = new URLSearchParams({
     status: "confirmed",
-    "expand[]": "free_web_content",
     "slugs[]": slug,
   });
+  params.append("expand[]", "free_web_content");
+  params.append("expand[]", "premium_web_content");
 
   const response = await fetch(
     `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
