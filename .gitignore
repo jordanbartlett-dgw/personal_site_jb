@@ -38,6 +38,11 @@ yarn-error.log*
 # superpowers brainstorm files
 .superpowers/
 
+# agent/editor config
+.agents/
+.claude/
+.serena/
+
 # infisical
 .infisical.json
 
