@@ -113,8 +113,13 @@ export async function getPosts(page = 1, limit = 10): Promise<{
 
   const data: BeehiivListResponse = await response.json();
 
+  const now = Date.now();
+  const posts = data.data
+    .filter((post) => post.publish_date * 1000 <= now)
+    .map(mapPost);
+
   return {
-    posts: data.data.map(mapPost),
+    posts,
     totalPages: data.total_pages,
   };
 }
@@ -147,11 +152,12 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
 
   const data: BeehiivListResponse = await response.json();
 
-  if (data.data.length === 0) {
+  const post = data.data[0];
+  if (!post || post.publish_date * 1000 > Date.now()) {
     return null;
   }
 
-  return mapPost(data.data[0]);
+  return mapPost(post);
 }
 
 export async function getAllSlugs(): Promise<string[]> {
