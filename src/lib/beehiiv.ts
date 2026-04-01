@@ -103,7 +103,7 @@ export async function getPosts(page = 1, limit = 10): Promise<{
     `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
     {
       headers: { Authorization: `Bearer ${apiKey}` },
-      next: { revalidate: 3600 },
+      next: { revalidate: 1800 },
     }
   );
 
@@ -137,7 +137,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
     {
       headers: { Authorization: `Bearer ${apiKey}` },
-      next: { revalidate: 3600 },
+      next: { revalidate: 1800 },
     }
   );
 
@@ -179,7 +179,7 @@ export async function getAllSlugs(): Promise<string[]> {
       `https://api.beehiiv.com/v2/publications/${publicationId}/posts?${params}`,
       {
         headers: { Authorization: `Bearer ${apiKey}` },
-        next: { revalidate: 3600 },
+        next: { revalidate: 1800 },
       }
     );
 

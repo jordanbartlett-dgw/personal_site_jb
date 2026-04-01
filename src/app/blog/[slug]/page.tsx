@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getPostBySlug, getAllSlugs } from "@/lib/beehiiv";
 import { NewsletterForm } from "@/components/newsletter-form";
 
-export const revalidate = 3600;
+export const revalidate = 1800;
 
 type Props = {
   params: Promise<{ slug: string }>;

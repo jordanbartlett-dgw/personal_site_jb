@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Infrastructure of Belonging. On building things that matter, technology for social impact, and scaling yourself before scaling headcount.",
 };
 
-export const revalidate = 3600;
+export const revalidate = 1800;
 
 export default async function BlogPage() {
   const { posts } = await getPosts(1, 20);
