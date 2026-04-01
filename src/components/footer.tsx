@@ -39,7 +39,7 @@ export function Footer() {
             )}
           </div>
         </div>
-        <p className="text-sm text-subtle">jordan@jordanbartlett.co</p>
+        <p className="text-sm text-subtle">me@jordanbartlett.co</p>
       </div>
     </footer>
   );
