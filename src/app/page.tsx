@@ -25,7 +25,7 @@ export default function Home() {
                 name: "Doing Good Works",
                 url: "https://doinggoodworks.com",
                 description:
-                  "Promotional products social enterprise and public benefit corporation.",
+                  "Branded merchandise social enterprise and public benefit corporation.",
               },
               {
                 "@type": "Organization",
@@ -70,7 +70,7 @@ export default function Home() {
             Doing Good Works
           </h2>
           <p className="text-base text-muted leading-relaxed mb-4">
-            A promotional products social enterprise and public benefit
+            A branded merchandise social enterprise and public benefit
             corporation. Every order funds Foster Greatness. Your branded merch
             budget becomes impact.
           </p>
