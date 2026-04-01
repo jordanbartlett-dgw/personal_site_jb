@@ -7,28 +7,32 @@ Personal brand website for Jordan Bartlett. Editorial, typography-forward Next.j
 Lead generator for DGW Branded (merchandise), Foster Greatness (nonprofit), and Infrastructure of Belonging newsletter.
 
 ## Status
-Implementation complete (Tasks 1-11). Ready for Vercel deployment (Task 12).
-See `docs/superpowers/specs/2026-03-31-jordanbartlett-co-design.md` for full spec.
-See `docs/superpowers/plans/2026-03-31-jordanbartlett-co.md` for implementation plan.
+Implementation complete. Deployed to Vercel. GitHub repo: jordanbartlett-dgw/personal_site_jb
 
 ## Stack
 - Next.js 16.2.1 (App Router) + React 19.2.4 + TypeScript (strict)
 - **Tailwind CSS v4** — NO tailwind.config.ts. All config in `src/app/globals.css` via `@theme inline {}`. Plugins via `@plugin`.
 - Beehiiv API v2 (blog content + newsletter subscriptions)
 - Supabase (contact form submissions via service role key)
+- Infisical (secret management, CLI-based injection)
 - Vercel deployment target
+
+## Secrets (managed via Infisical)
+- `BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+- Infisical workspace: `7a23b0fe-e17a-4745-94a3-078cba9c36c6`
 
 ## Commands
 ```bash
-npm run dev    # Dev server
-npm run build  # Production build
-npm run lint   # ESLint
+npm run dev:infisical    # Dev server with Infisical secrets
+npm run build:infisical  # Production build with Infisical secrets
+npm run lint             # ESLint
 ```
 
-## Before Deploying
-1. Create Supabase `contact_submissions` table (SQL in plan Task 9)
-2. Set env vars (see `.env.local.example`): BEEHIIV_API_KEY, BEEHIIV_PUBLICATION_ID, NEXT_PUBLIC_BEEHIIV_SUBSCRIBE_URL, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
-3. Deploy: `npx vercel` then link jordanbartlett.co domain
+## Content Workflow
+- Newsletter publishes via Beehiiv at 10am CST every Wednesday
+- Blog revalidates every 30 minutes, so new posts appear by ~10:30am
+- LinkedIn post scheduled for 10:30am+ CST to allow time for revalidation check
+- Blog HTML is cleaned of Beehiiv wrapper/inline styles in `src/lib/beehiiv.ts`
 
 ## After Deploying
 - Design polish with Impeccable skills (user requested)
