@@ -97,6 +97,12 @@ export default async function BlogPostPage({ params }: Props) {
           Get new posts delivered to your inbox.
         </p>
         <NewsletterForm />
+        <Link
+          href="/blog"
+          className="inline-block mt-8 text-sm text-terracotta border-b border-terracotta hover:opacity-80 transition-opacity"
+        >
+          Read more posts →
+        </Link>
       </div>
     </article>
   );
