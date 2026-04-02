@@ -26,7 +26,7 @@ function filterEntries(
 }
 
 export function TimelineFilter({ entries }: { entries: TimelineEntry[] }) {
-  const [active, setActive] = useState<FilterOption>("highlights");
+  const [active, setActive] = useState<FilterOption>("all");
   const filtered = filterEntries(entries, active);
 
   let currentYear: number | null = null;
