@@ -12,6 +12,8 @@ Jordan writes Infrastructure of Belonging, a newsletter on building things that 
 ## Pages
 - / — Homepage
 - /blog — Newsletter archive and blog posts
+- /journey — Interactive timeline of Jordan's 11-year founder journey (2014–2025)
+- /projects — Showcase of active projects and builds
 - /connect — Contact form for branded merchandise inquiries, corporate partnerships, and general inquiries
 
 ## Contact

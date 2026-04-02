@@ -22,6 +22,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
     },
     {
+      url: "https://jordanbartlett.co/journey",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+    },
+    {
+      url: "https://jordanbartlett.co/projects",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+    },
+    {
       url: "https://jordanbartlett.co/connect",
       lastModified: new Date(),
       changeFrequency: "yearly",

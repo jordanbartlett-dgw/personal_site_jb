@@ -6,9 +6,12 @@ export function Nav() {
       <Link href="/" className="font-serif text-lg">
         Jordan Bartlett
       </Link>
-      <div className="flex gap-6 text-sm text-muted">
+      <div className="flex gap-4 md:gap-6 text-sm text-muted">
         <Link href="/blog" className="hover:text-ink transition-colors">
           Writing
+        </Link>
+        <Link href="/journey" className="hover:text-ink transition-colors">
+          Journey
         </Link>
         <Link href="/connect" className="hover:text-ink transition-colors">
           Connect

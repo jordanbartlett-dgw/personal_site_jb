@@ -133,6 +133,24 @@ export default function Home() {
 
       <div className="border-t border-border-light mx-6 md:mx-10" />
 
+      {/* The Journey */}
+      <section className="px-6 md:px-10 py-16 max-w-prose mx-auto">
+        <SectionLabel>The Journey</SectionLabel>
+        <p className="text-base text-muted leading-relaxed mb-4">
+          Eleven years of building at the intersection of commerce, community,
+          and technology. From a coffee meeting to an Inc. 5000 social
+          enterprise and a 2,000-member foster care community.
+        </p>
+        <Link
+          href="/journey"
+          className="text-sm text-terracotta border-b border-terracotta hover:opacity-80 transition-opacity"
+        >
+          Read the full timeline →
+        </Link>
+      </section>
+
+      <div className="border-t border-border-light mx-6 md:mx-10" />
+
       {/* Currently */}
       <section className="px-6 md:px-10 py-16 max-w-prose mx-auto">
         <SectionLabel>Currently</SectionLabel>
