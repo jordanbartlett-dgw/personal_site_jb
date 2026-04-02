@@ -7,7 +7,14 @@ Personal brand website for Jordan Bartlett. Editorial, typography-forward Next.j
 Lead generator for DGW Branded (merchandise), Foster Greatness (nonprofit), and Infrastructure of Belonging newsletter.
 
 ## Status
-Implementation complete. Deployed to Vercel. GitHub repo: jordanbartlett-dgw/personal_site_jb
+Live and deployed to Vercel. GitHub repo: jordanbartlett-dgw/personal_site_jb
+
+### Pages
+- `/` — Homepage with hero, "What I'm Building", journey teaser, "Currently"
+- `/blog` + `/blog/[slug]` — Newsletter archive powered by Beehiiv API
+- `/journey` — Interactive founder timeline (2014-2025), ~50 milestones, filterable by category
+- `/projects` — Project showcase (built, not yet linked in nav)
+- `/connect` — Contact form (Supabase)
 
 ## Stack
 - Next.js 16.2.1 (App Router) + React 19.2.4 + TypeScript (strict)
@@ -34,9 +41,17 @@ npm run lint             # ESLint
 - LinkedIn post scheduled for 10:30am+ CST to allow time for revalidation check
 - Blog HTML is cleaned of Beehiiv wrapper/inline styles in `src/lib/beehiiv.ts`
 
+## Timeline Content Rules
+- No employee names. Only family (Scott, Drew, Rachel, Jessie) by first name.
+- No dollar amounts unless donations/givebacks.
+- No consulting/new business references. DGW + FG journey only.
+- Frame team efforts as team efforts, not solo acts.
+- Timeline data lives in `src/data/timeline.ts`, projects in `src/data/projects.ts`.
+
 ## After Deploying
 - Design polish with Impeccable skills (user requested)
 - Copy/wording refinement (user deferred to post-build)
+- Projects page: refine copy, add to nav when ready (one-line change in nav.tsx)
 
 ## Key Skills
 - `jb-brand` — Brand context, design system, conversion goals
